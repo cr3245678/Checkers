@@ -1,0 +1,252 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+@using CheckersGame.Controllers
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Style/Play.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+
+        function ShowOptions(player, soldierName)
+        {
+            $(".option").remove();
+            $.post("/Home/ShowOption", { player: player, soldierName: soldierName }, function (data) {
+                for (var i = 0; i < data.options.length; i++) {
+                    $('td[data-x=' + data.options[i].X + '][data-y=' + data.options[i].Y + ']').append("<div class= 'option' data-x=" + data.options[i].X + " data-y=" + data.options[i].Y + " onclick = 'ChooseOption(" + data.options[i].X + ", " + data.options[i].Y + "," + soldierName + ")' ></div>");
+                }
+            });  
+        }
+
+        function ChooseOption(x, y, name)
+        {
+            $.post("/Home/ChooseOption", { x: x, y: y, soldierName: name.id }, function (data) {
+                if (data.succeeded == "succeeded") {
+                    $(".option").remove();
+                    $('td[data-x=' + x + '][data-y=' + y + ']').append(name);
+
+                    if (name.id.startsWith("r")) {
+                        $('.redSoldier').attr("disabled", true);
+                        $('.blackSoldier').attr("disabled", false);
+                    }
+                    else {
+                        $('.redSoldier').attr("disabled", false);
+                        $('.blackSoldier').attr("disabled", true);
+                    }
+                }
+                
+                if (data.soldierFailedName != "") {
+
+                    var soldierFailed = $('#' + data.soldierFailedName);
+                    $('#failedSoldiers').append(soldierFailed);
+                    $('#' + data.soldierFailedName).attr("disabled", true);
+                    if (name.id.startsWith("r")) {
+                        $('#' + data.soldierFailedName).addClass('blackFailedSoldier');
+                        $('#' + data.soldierFailedName).removeClass('blackSoldier');
+                    }
+                    else {
+                        $('#' + data.soldierFailedName).addClass('redFailedSoldier');
+                        $('#' + data.soldierFailedName).removeClass('redSoldier');
+                    }
+
+                }
+            }); 
+        }
+    </script>
+    <title>Play</title>
+</head>
+<body>
+    <div>
+        <table>
+            <tr>
+                <td class="light" data-x="0" data-y="0"></td>
+                <td class="dark" data-x="1" data-y="0">
+                    <button id="bs1" onclick="ShowOptions('black','bs1')" class="blackSoldier"
+                            @if (ViewBag.Player == "red") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="2" data-y="0"></td>
+                <td class="dark" data-x="3" data-y="0">
+                    <button id="bs2" onclick="ShowOptions('black','bs2')" class="blackSoldier"
+                            @if (ViewBag.Player == "red") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="4" data-y="0"></td>
+                <td class="dark" data-x="5" data-y="0">
+                    <button id="bs3" onclick="ShowOptions('black','bs3')" class="blackSoldier"
+                            @if (ViewBag.Player == "red") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="6" data-y="0"></td>
+                <td class="dark" data-x="7" data-y="0">
+                    <button id="bs4" onclick="ShowOptions('black','bs4')" class="blackSoldier"
+                            @if (ViewBag.Player == "red") { @: disabled
+                            }></button>
+                </td>
+            </tr>
+            <tr>
+                <td class="dark" data-x="0" data-y="1">
+                    <button id="bs5" onclick="ShowOptions('black','bs5')" class="blackSoldier"
+                            @if (ViewBag.Player == "red") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="1" data-y="1"></td>
+                <td class="dark" data-x="2" data-y="1">
+                    <button id="bs6" onclick="ShowOptions('black','bs6')" class="blackSoldier"
+                            @if (ViewBag.Player == "red") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="3" data-y="1"></td>
+                <td class="dark" data-x="4" data-y="1">
+                    <button id="bs7" onclick="ShowOptions('black','bs7')" class="blackSoldier"
+                            @if (ViewBag.Player == "red") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="5" data-y="1"></td>
+                <td class="dark" data-x="6" data-y="1">
+                    <button id="bs8" onclick="ShowOptions('black','bs8')" class="blackSoldier"
+                            @if (ViewBag.Player == "red") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="7" data-y="1"></td>
+            </tr>
+            <tr>
+                <td class="light" data-x="0" data-y="2"></td>
+                <td class="dark" data-x="1" data-y="2">
+                    <button id="bs9" onclick="ShowOptions('black','bs9')" class="blackSoldier"
+                            @if (ViewBag.Player == "red") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="2" data-y="2"></td>
+                <td class="dark" data-x="3" data-y="2">
+                    <button id="bs10" onclick="ShowOptions('black','bs10')" class="blackSoldier"
+                            @if (ViewBag.Player == "red") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="4" data-y="2"></td>
+                <td class="dark" data-x="5" data-y="2">
+                    <button id="bs11" onclick="ShowOptions('black','bs11')" class="blackSoldier"
+                            @if (ViewBag.Player == "red") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="6" data-y="2"></td>
+                <td class="dark" data-x="7" data-y="2">
+                    <button id="bs12" onclick="ShowOptions('black','bs12')" class="blackSoldier"
+                            @if (ViewBag.Player == "red") { @: disabled
+                            }></button>
+                </td>
+            </tr>
+            <tr>
+                <td class="dark" data-x="0" data-y="3"></td>
+                <td class="light" data-x="1" data-y="3"></td>
+                <td class="dark" data-x="2" data-y="3"></td>
+                <td class="light" data-x="3" data-y="3"></td>
+                <td class="dark" data-x="4" data-y="3"></td>
+                <td class="light" data-x="5" data-y="3"></td>
+                <td class="dark" data-x="6" data-y="3"></td>
+                <td class="light" data-x="7" data-y="3"></td>
+            </tr>
+            <tr>
+                <td class="light" data-x="0" data-y="4"></td>
+                <td class="dark" data-x="1" data-y="4"></td>
+                <td class="light" data-x="2" data-y="4"></td>
+                <td class="dark" data-x="3" data-y="4"></td>
+                <td class="light" data-x="4" data-y="4"></td>
+                <td class="dark" data-x="5" data-y="4"></td>
+                <td class="light" data-x="6" data-y="4"></td>
+                <td class="dark" data-x="7" data-y="4"></td>
+            </tr>
+            <tr>
+                <td class="dark" data-x="0" data-y="5">
+                    <button id="rs1" onclick="ShowOptions('red','rs1')" class="redSoldier"
+                            @if (ViewBag.Player == "black") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="1" data-y="5"></td>
+                <td class="dark" data-x="2" data-y="5">
+                    <button id="rs2" onclick="ShowOptions('red','rs2')" class="redSoldier"
+                            @if (ViewBag.Player == "black") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="3" data-y="5"></td>
+                <td class="dark" data-x="4" data-y="5">
+                    <button id="rs3" onclick="ShowOptions('red','rs3')" class="redSoldier"
+                            @if (ViewBag.Player == "black") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="5" data-y="5"></td>
+                <td class="dark" data-x="6" data-y="5">
+                    <button id="rs4" onclick="ShowOptions('red','rs4')" class="redSoldier"
+                            @if (ViewBag.Player == "black") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="7" data-y="5"></td>
+            </tr>
+            <tr>
+                <td class="light" data-x="0" data-y="6"></td>
+                <td class="dark" data-x="1" data-y="6">
+                    <button id="rs5" onclick="ShowOptions('red','rs5')" class="redSoldier"
+                            @if (ViewBag.Player == "black") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="2" data-y="6"></td>
+                <td class="dark" data-x="3" data-y="6">
+                    <button id="rs6" onclick="ShowOptions('red','rs6')" class="redSoldier"
+                            @if (ViewBag.Player == "black") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="4" data-y="6"></td>
+                <td class="dark" data-x="5" data-y="6">
+                    <button id="rs7" onclick="ShowOptions('red','rs7')" class="redSoldier"
+                            @if (ViewBag.Player == "black") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="6" data-y="6"></td>
+                <td class="dark" data-x="7" data-y="6">
+                    <button id="rs8" onclick="ShowOptions('red','rs8')" class="redSoldier"
+                            @if (ViewBag.Player == "black") { @: disabled
+                            }></button>
+                </td>
+            </tr>
+            <tr>
+                <td class="dark" data-x="0" data-y="7">
+                    <button id="rs9" onclick="ShowOptions('red','rs9')" class="redSoldier"
+                            @if (ViewBag.Player == "black") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="1" data-y="7"></td>
+                <td class="dark" data-x="2" data-y="7">
+                    <button id="rs10" onclick="ShowOptions('red','rs10')" class="redSoldier"
+                            @if (ViewBag.Player == "black") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="3" data-y="7"></td>
+                <td class="dark" data-x="4" data-y="7">
+                    <button id="rs11" onclick="ShowOptions('red','rs11')" class="redSoldier"
+                            @if (ViewBag.Player == "black") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="5" data-y="7"></td>
+                <td class="dark" data-x="6" data-y="7">
+                    <button id="rs12" onclick="ShowOptions('red','rs12')" class="redSoldier"
+                            @if (ViewBag.Player == "black") { @: disabled
+                            }></button>
+                </td>
+                <td class="light" data-x="7" data-y="7"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="failedSoldiersContent">
+        <h1>Faild Soldiers</h1>
+        <div id="failedSoldiers"></div>
+    </div>
+</body>
+</html>
